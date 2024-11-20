@@ -1,12 +1,6 @@
 ﻿name: Python CI
 
-on:
-  pull_request:
-    branches: 
-      - '*'
-  push:
-    branches: 
-      - '*'
+on: [push, pull_request]
 
 jobs:
   lint:
@@ -31,9 +25,6 @@ jobs:
     - name: Run ruff format
       run: |
         ruff format .  # Format the code
-
-    - name: Install pre-commit hooks
-      run: pre-commit install  # Install the pre-commit hooks
-
+        
     - name: Run pre-commit hooks
       run: pre-commit run --all-files  # Manually run the pre-commit hooks

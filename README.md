@@ -6,3 +6,12 @@ Implementation of a Reverse Proxy Server developed as part of the Distributed Ap
 
 - Python 3.x
 - Docker and Docker Compose
+
+## Setup
+
+```bash
+git clone https://github.com/DumitruVartic/reverse-proxy-server.git
+cd reverse-proxy-server
+pip install -r requirements.txt
+pre-commit install
+```
