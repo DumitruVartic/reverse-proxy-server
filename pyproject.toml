@@ -1,0 +1,6 @@
+[tool.ruff]
+exclude = [".venv", ".git", "pyproject.toml"]
+fix = true
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "C", "I"]
