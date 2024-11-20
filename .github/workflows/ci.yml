@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
@@ -20,9 +20,16 @@ jobs:
         python -m pip install --upgrade pip
         pip install ruff pre-commit
 
-    - name: Run Ruff
+    - name: Run Ruff check and fix
       run: |
         ruff check . --fix  # Automatically fix issues if needed
+
+    - name: Run ruff format
+      run: |
+        ruff format .  # Format the code
+
+    - name: Install pre-commit hooks
+      run: pre-commit install  # Install the pre-commit hooks
 
     - name: Run pre-commit hooks
       run: pre-commit run --all-files  # Manually run the pre-commit hooks
