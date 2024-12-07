@@ -1,0 +1,37 @@
+name: Build and Release Docker Image
+
+on:
+  push:
+    tags:
+      - 'v*'  # Trigger the action on version tags (e.g., v1.0, v1.1)
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout the code
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # Set up Docker Buildx
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    # Build the Docker image
+    - name: Build Docker image
+      run: |
+        docker build -t myapp:${{ github.sha }} .
+
+    # Save the Docker image as a tar file
+    - name: Save Docker image as a tar file
+      run: |
+        docker save myapp:${{ github.sha }} | gzip > myapp-${{ github.sha }}.tar.gz
+
+    # Upload the tar file as an asset to GitHub Release
+    - name: Upload Docker image as release asset
+      uses: softprops/action-gh-release@v1
+      with:
+        files: myapp-${{ github.sha }}.tar.gz
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
