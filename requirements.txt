@@ -1,5 +1,0 @@
--r proxy/requirements.txt
--r data_warehouse/requirements.txt
--r data_sync/requirements.txt
-ruff
-pre-commit
