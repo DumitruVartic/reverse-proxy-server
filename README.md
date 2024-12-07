@@ -6,6 +6,12 @@ Implementation of a Reverse Proxy Server developed as part of the Distributed Ap
 
 If all prerequisites are met and everything is set up correctly, you can start the server by running:
 
+Docker:
+
+```bash
+docker-compose up --build
+```
+
 ```bash
 uvicorn app.main:app --reload
 ```

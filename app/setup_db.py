@@ -1,18 +1,39 @@
+import time
+
 import psycopg2
+from models import Base
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 from sqlalchemy import create_engine
-
-from app.models import Base
 
 DB_NAME = "datawarehouse"
 DB_USER = "postgres"
 DB_PASSWORD = "password"
-DB_HOST = "localhost"
+DB_HOST = "postgres_primary"
 DB_PORT = 5432
+
+
+def wait_for_db():
+    """Wait for the database to be ready."""
+    while True:
+        try:
+            conn = psycopg2.connect(
+                dbname="postgres",
+                user=DB_USER,
+                password=DB_PASSWORD,
+                host=DB_HOST,
+                port=DB_PORT,
+            )
+            conn.close()
+            print("Database is ready!")
+            break
+        except Exception:
+            print("Waiting for database to be ready...")
+            time.sleep(2)
 
 
 def create_database():
     """Check and create the database if it doesn't exist."""
+    wait_for_db()  # Wait for the database to be ready
     try:
         conn = psycopg2.connect(
             dbname="postgres",
@@ -34,17 +55,16 @@ def create_database():
     except Exception as e:
         print(f"Error: {e}")
     finally:
-        cursor.close()
-        conn.close()
+        if "cursor" in locals():
+            cursor.close()
+        if "conn" in locals():
+            conn.close()
 
 
 def initialize_tables():
     """Initialize tables in the database."""
     print("Creating tables...")
-    # Ensure you're using the synchronous engine
-    engine = create_engine(
-        f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-    )
+    engine = create_engine(f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}")
     Base.metadata.create_all(bind=engine)
     print("Tables created.")
 

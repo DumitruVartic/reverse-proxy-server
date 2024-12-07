@@ -1,11 +1,10 @@
 from typing import List
 
+import crud as crud
+from database import get_db
 from fastapi import Depends, FastAPI, HTTPException
+from schemas import UserCreate, UserResponse
 from sqlalchemy.ext.asyncio import AsyncSession
-
-import app.crud as crud
-from app.database import get_db
-from app.schemas import UserCreate, UserResponse
 
 app = FastAPI()
 
@@ -23,9 +22,7 @@ async def get_users(db: AsyncSession = Depends(get_db)):
 
 
 @app.put("/users/{user_id}", response_model=UserResponse)
-async def update_user(
-    user_id: int, user: UserCreate, db: AsyncSession = Depends(get_db)
-):
+async def update_user(user_id: int, user: UserCreate, db: AsyncSession = Depends(get_db)):
     db_user = await crud.update_user(db, user_id, user.name, user.email)
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
