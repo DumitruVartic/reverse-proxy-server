@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  smart-proxy:
+    build:
+      context: ./app
+    container_name: smart-proxy
+    ports:
+      - "8000:8000"
+    environment:
+      - DATA_WAREHOUSE_URL=http://data-warehouse:8000
+
+  data-warehouse:
+    image: postgres:14
+    container_name: data-warehouse
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: warehouse
+    ports:
+      - "8001:5432"
