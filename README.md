@@ -2,6 +2,17 @@
 
 Implementation of a Reverse Proxy Server developed as part of the Distributed Applications Programming course. It should direct client requests to backend data warehouses, using load balancing to evenly distribute requests and caching to speed up responses by storing frequently used data.
 
+## Usage
+
+If all prerequisites are met and everything is set up correctly, you can start the server by running:
+
+```bash
+uvicorn app.main:app --reload
+```
+
+### Also look at the **Swagger UI** for testing the API:
+API documentation is available at <http://127.0.0.1:8000/docs>
+
 ## Prerequisites
 
 - Python 3.x
