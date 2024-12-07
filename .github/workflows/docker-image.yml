@@ -46,4 +46,4 @@ jobs:
       with:
         files: reverse_proxy-${{ github.sha }}.tar.gz
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Ensure the token has the right permissions
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
