@@ -35,15 +35,18 @@ jobs:
       run: |
         docker tag reverse_proxy:latest reverse_proxy:${{ github.sha }}
 
-    # Save the Docker image as a tar file
-    - name: Save Docker image as a tar file
+    # Save the Docker image as a zip file
+    - name: Save Docker image as a zip file
       run: |
         docker save reverse_proxy:${{ github.sha }} | gzip > reverse_proxy-${{ github.sha }}.tar.gz
+        # Convert the tar.gz file to a zip file
+        mv reverse_proxy-${{ github.sha }}.tar.gz reverse_proxy-${{ github.sha }}.tar
+        zip reverse_proxy-${{ github.sha }}.zip reverse_proxy-${{ github.sha }}.tar
 
-    # Upload the tar file as an asset to GitHub Release
+    # Upload the zip file as an asset to GitHub Release
     - name: Upload Docker image as release asset
       uses: softprops/action-gh-release@v1
       with:
-        files: reverse_proxy-${{ github.sha }}.tar.gz
+        files: reverse_proxy-${{ github.sha }}.zip
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
