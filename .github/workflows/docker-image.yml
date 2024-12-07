@@ -30,6 +30,11 @@ jobs:
       run: |
         docker-compose -f docker-compose.yml build
 
+    # Tag the Docker image with the GitHub SHA
+    - name: Tag Docker image
+      run: |
+        docker tag myapp:latest myapp:${{ github.sha }}
+
     # Save the Docker image as a tar file
     - name: Save Docker image as a tar file
       run: |
@@ -41,4 +46,4 @@ jobs:
       with:
         files: myapp-${{ github.sha }}.tar.gz
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Ensure the token has the right permissions
