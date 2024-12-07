@@ -51,11 +51,9 @@ services:
   # Replica manager service
   reverse_proxy:
     build:
-      context: ./replica_manager
+      context: ./app
     image: reverse_proxy:latest
     container_name: reverse_proxy
-    environment:
-      - REPLICA_COUNT=3
     depends_on:
       - postgres_primary
     networks:
