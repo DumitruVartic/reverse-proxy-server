@@ -30,23 +30,20 @@ jobs:
       run: |
         docker-compose -f docker-compose.yml build
 
-    # Tag the reverse_proxy image with the GitHub SHA
+    # Tag the image with the version tag instead of SHA
     - name: Tag Docker image
       run: |
-        docker tag reverse_proxy:latest reverse_proxy:${{ github.sha }}
+        docker tag reverse_proxy:latest reverse_proxy:${{ github.ref_name }}
 
-    # Save the Docker image as a zip file
-    - name: Save Docker image as a zip file
+    # Save the Docker image as a tar file
+    - name: Save Docker image as a tar file
       run: |
-        docker save reverse_proxy:${{ github.sha }} | gzip > reverse_proxy-${{ github.sha }}.tar.gz
-        # Convert the tar.gz file to a zip file
-        mv reverse_proxy-${{ github.sha }}.tar.gz reverse_proxy-${{ github.sha }}.tar
-        zip reverse_proxy-${{ github.sha }}.zip reverse_proxy-${{ github.sha }}.tar
+        docker save reverse_proxy:${{ github.ref_name }} | gzip > reverse_proxy-${{ github.ref_name }}.tar.gz
 
-    # Upload the zip file as an asset to GitHub Release
+    # Upload the tar file as an asset to GitHub Release
     - name: Upload Docker image as release asset
       uses: softprops/action-gh-release@v1
       with:
-        files: reverse_proxy-${{ github.sha }}.zip
+        files: reverse_proxy-${{ github.ref_name }}.tar.gz
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
