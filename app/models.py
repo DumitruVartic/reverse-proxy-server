@@ -1,14 +1,7 @@
-from sqlalchemy import Column, Integer, String, create_engine
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-
-DATABASE_URL = "postgresql+asyncpg://user:password@localhost/datawarehouse"
 
 Base = declarative_base()
-engine = create_engine(DATABASE_URL, echo=True)
-
-# Dependency for creating sessions
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 class User(Base):

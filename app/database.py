@@ -1,21 +1,17 @@
-import psycopg2
-from sqlalchemy import create_engine
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# Load settings from environment or .env file
-DATABASE_URL = "postgresql+psycopg2://postgres:yourpassword@localhost/datawarehouse"
+DATABASE_URL = "postgresql+asyncpg://postgres:yourpassword@localhost/datawarehouse"
 
-# Database engine and session configuration
-engine = create_engine(DATABASE_URL)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+engine = create_async_engine(DATABASE_URL, echo=True, future=True)
+SessionLocal = sessionmaker(
+    engine, class_=AsyncSession, autocommit=False, autoflush=False
+)
+
 Base = declarative_base()
 
 
-# Dependency for database session
-def get_db():
-    db = SessionLocal()
-    try:
+async def get_db():
+    async with SessionLocal() as db:
         yield db
-    finally:
-        db.close()

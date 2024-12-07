@@ -10,7 +10,8 @@ If all prerequisites are met and everything is set up correctly, you can start t
 uvicorn app.main:app --reload
 ```
 
-### Also look at the **Swagger UI** for testing the API:
+### Also look at the **Swagger UI** for testing the API
+
 API documentation is available at <http://127.0.0.1:8000/docs>
 
 ## Prerequisites
