@@ -1,0 +1,11 @@
+ruff # For code formatting
+pre-commit # For code formatting and linting pre-commit hooks
+fastapi==0.100.0  # Main API framework
+uvicorn==0.23.0   # ASGI server
+sqlalchemy==2.0.23  # ORM for database interaction
+psycopg2-binary==2.9.8  # PostgreSQL driver for setup script
+asyncpg==0.28.0   # Asynchronous PostgreSQL driver
+python-decouple==3.8  # For environment variable management
+alembic==1.11.1   # For database migrations (optional)
+pytest==7.4.0  # For testing
+httpx==0.24.1   # HTTP client for testing
