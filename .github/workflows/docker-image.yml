@@ -30,20 +30,20 @@ jobs:
       run: |
         docker-compose -f docker-compose.yml build
 
-    # Tag the replica_manager image with the GitHub SHA
+    # Tag the reverse_proxy image with the GitHub SHA
     - name: Tag Docker image
       run: |
-        docker tag replica_manager:latest replica_manager:${{ github.sha }}
+        docker tag reverse_proxy:latest reverse_proxy:${{ github.sha }}
 
     # Save the Docker image as a tar file
     - name: Save Docker image as a tar file
       run: |
-        docker save replica_manager:${{ github.sha }} | gzip > replica_manager-${{ github.sha }}.tar.gz
+        docker save reverse_proxy:${{ github.sha }} | gzip > reverse_proxy-${{ github.sha }}.tar.gz
 
     # Upload the tar file as an asset to GitHub Release
     - name: Upload Docker image as release asset
       uses: softprops/action-gh-release@v1
       with:
-        files: replica_manager-${{ github.sha }}.tar.gz
+        files: reverse_proxy-${{ github.sha }}.tar.gz
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Ensure the token has the right permissions

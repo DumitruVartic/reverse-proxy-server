@@ -49,11 +49,11 @@ services:
       - postgres_primary
 
   # Replica manager service
-  replica_manager:
+  reverse_proxy:
     build:
       context: ./replica_manager
-    image: replica_manager:latest  # Add this line to tag the image
-    container_name: replica_manager
+    image: reverse_proxy:latest
+    container_name: reverse_proxy
     environment:
       - REPLICA_COUNT=3
     depends_on:
