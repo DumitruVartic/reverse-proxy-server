@@ -18,10 +18,17 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
-    # Build the Docker image
-    - name: Build Docker image
+    # Set up Docker Compose
+    - name: Set up Docker Compose
       run: |
-        docker build -t myapp:${{ github.sha }} .
+        sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        sudo chmod +x /usr/local/bin/docker-compose
+        docker-compose --version  # Verify the installation
+
+    # Build Docker Compose services
+    - name: Build Docker Compose services
+      run: |
+        docker-compose -f docker-compose.yml build
 
     # Save the Docker image as a tar file
     - name: Save Docker image as a tar file

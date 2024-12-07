@@ -14,6 +14,14 @@ docker-compose up --build
 
 Or from realeses.
 
+To make a new docker image version in releases, thanks to the GitHub Actions, you need to create a new tag and push it to the repository. Replace `v1.0` with the new version number.
+**Example:**
+
+```bash
+git tag v1.0
+git push origin v1.0
+```
+
 ### Also look at the **Swagger UI** for testing the API
 
 API documentation is available at <http://127.0.0.1:8000/docs>
