@@ -1,20 +1,68 @@
 version: "3.8"
+
 services:
-  smart-proxy:
-    build:
-      context: ./app
-    container_name: smart-proxy
+  # PostgreSQL primary container
+  postgres_primary:
+    image: postgres:latest
+    container_name: postgres_primary
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: datawarehouse
+    volumes:
+      - pg_primary_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - pgnetwork
+    ports:
+      - "5433:5432"
+    restart: always
+
+  # FastAPI app container
+  fastapi-app:
+    build: ./app
+    container_name: fastapi_app
+    networks:
+      - pgnetwork
     ports:
       - "8000:8000"
+    depends_on:
+      - postgres_primary
     environment:
-      - DATA_WAREHOUSE_URL=http://data-warehouse:8000
+      - POSTGRES_PRIMARY_HOST=postgres_primary
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=datawarehouse
 
-  data-warehouse:
-    image: postgres:14
-    container_name: data-warehouse
+  # Dynamic replica service
+  postgres_replica:
+    image: postgres:latest
+    container_name: postgres_replica
     environment:
-      POSTGRES_USER: admin
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: warehouse
-    ports:
-      - "8001:5432"
+      POSTGRES_USER: postgres
+      POSTGRES_DB: datawarehouse
+    networks:
+      - pgnetwork
+    restart: always
+    depends_on:
+      - postgres_primary
+
+  # Replica manager service
+  replica_manager:
+    build: ./replica_manager
+    container_name: replica_manager
+    environment:
+      - REPLICA_COUNT=3
+    depends_on:
+      - postgres_primary
+    networks:
+      - pgnetwork
+
+networks:
+  pgnetwork:
+    driver: bridge
+
+volumes:
+  pg_primary_data:
+  pg_replica_data:
