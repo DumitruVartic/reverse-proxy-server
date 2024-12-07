@@ -61,6 +61,14 @@ Initialize the database cluster (run only once):
 
 ```bash
 sudo -iu postgres initdb --locale=en_US.UTF-8 -D /var/lib/postgres/data
+sudo systemctl start postgresql
+sudo systemctl enable postgresql.service
+```
+
+If second time you run the command and get error, run this and then again the above command:
+
+```bash
+sudo rm -rf /var/lib/postgres/data
 ```
 
 MacOS:
