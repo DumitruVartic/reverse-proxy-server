@@ -12,9 +12,7 @@ Docker:
 docker-compose up --build
 ```
 
-```bash
-uvicorn app.main:app --reload
-```
+Or from realeses.
 
 ### Also look at the **Swagger UI** for testing the API
 
