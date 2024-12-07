@@ -50,7 +50,9 @@ services:
 
   # Replica manager service
   replica_manager:
-    build: ./replica_manager
+    build:
+      context: ./replica_manager
+    image: replica_manager:latest  # Add this line to tag the image
     container_name: replica_manager
     environment:
       - REPLICA_COUNT=3
