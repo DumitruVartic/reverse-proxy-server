@@ -9,12 +9,8 @@ If all prerequisites are met and everything is set up correctly, you can start t
 Clone the repository:
 
 ```bash
-git clone --recursive https://github.com/DumitruVartic/reverse-proxy-server.git
-```
-
-Docker:
-
-```bash
+git clone https://github.com/DumitruVartic/reverse-proxy-server.git
+cd reverse-proxy-server
 docker-compose up --build --scale api=5 # or any number of instances
 ```
 
@@ -62,9 +58,6 @@ pip install -r requirements.txt
 ```bash
 pre-commit install
 ```
-
-## Frontend setup
-
 
 ## Database setup
 
