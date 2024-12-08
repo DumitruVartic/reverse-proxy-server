@@ -4,7 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 # Database Configuration
-DATABASE_URL = "postgresql+asyncpg://postgres:password@postgres_primary/datawarehouse"
+DATABASE_URL = "postgresql+asyncpg://postgres:password@postgres:5432/datawarehouse"
 
 # Async SQLAlchemy Engine
 engine = create_async_engine(DATABASE_URL, echo=True, future=True)
