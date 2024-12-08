@@ -9,7 +9,7 @@ If all prerequisites are met and everything is set up correctly, you can start t
 Clone the repository:
 
 ```bash
-git clone --recurse-submodules https://github.com/DumitruVartic/reverse-proxy-server.git
+git clone --recursive https://github.com/DumitruVartic/reverse-proxy-server.git
 ```
 
 Docker:
