@@ -9,20 +9,19 @@ If all prerequisites are met and everything is set up correctly, you can start t
 Docker:
 
 ```bash
-docker-compose up --build --scale api=5
+docker-compose up --build --scale api=5 # or any number of instances
 ```
 
 ### Also look at the **Swagger UI** for testing the API
 
-API documentation is available at <http://127.0.0.1:8000/docs>
+API documentation is available at <http://localhost:8080/docs>
 
 ## Prerequisites
 
 - Python 3.x
-- Docker and Docker Compose Look at the [Docker setup](#docker-setup) section for more details.
+- Docker and Docker Compose
 - Nginx Look at the [Nginx setup](#nginx-setup) section for more details.
 - PostgreSQL Look at the [Database setup](#database-setup) section for more details.
-- Multi-Node Database Synchronization Look at the [Multi-Node Database Synchronization](#multi-node-database-synchronization) section for more details.
 
 Install the required packages:
 

@@ -2,6 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
+# This should be in the .env file
 DATABASE_URL = "postgresql+asyncpg://postgres:password@postgres:5432/datawarehouse"
 
 engine = create_async_engine(DATABASE_URL, echo=True, future=True)
