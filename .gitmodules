@@ -1,0 +1,3 @@
+[submodule "truck-driver-system"]
+	path = truck-driver-system
+	url = https://github.com/danielcojocaru02/Truck-Driver-System
