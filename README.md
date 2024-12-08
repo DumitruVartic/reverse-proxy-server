@@ -6,6 +6,12 @@ Implementation of a Reverse Proxy Server developed as part of the Distributed Ap
 
 If all prerequisites are met and everything is set up correctly, you can start the server by running:
 
+Clone the repository:
+
+```bash
+git clone --recurse-submodules https://github.com/DumitruVartic/reverse-proxy-server.git
+```
+
 Docker:
 
 ```bash
@@ -56,6 +62,9 @@ pip install -r requirements.txt
 ```bash
 pre-commit install
 ```
+
+## Frontend setup
+
 
 ## Database setup
 
