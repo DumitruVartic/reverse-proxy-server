@@ -2,22 +2,6 @@
 
 Implementation of a Reverse Proxy Server developed as part of the Distributed Applications Programming course. It should direct client requests to backend data warehouses, using load balancing to evenly distribute requests and caching to speed up responses by storing frequently used data.
 
-## Using Docker Image from Releases
-
-To use the Docker image from the releases, you need to have Docker installed on your system.
-Download the latest release from the releases page and extract the contents of the archive.
-Navigate to the extracted folder and run the following command.Change the version number to the version you downloaded.
-
-```bash
-docker load -i reverse_proxy-v1.0.10.tar.gz
-```
-
-After the image is loaded, you can run the container with the following command:
-
-```bash
-docker run -p 8000:8000 reverse_proxy:latest
-```
-
 ## Usage
 
 If all prerequisites are met and everything is set up correctly, you can start the server by running:
@@ -25,17 +9,7 @@ If all prerequisites are met and everything is set up correctly, you can start t
 Docker:
 
 ```bash
-docker-compose up --build
-```
-
-Or from realeses.
-
-To make a new docker image version in releases, thanks to the GitHub Actions, you need to create a new tag and push it to the repository. Replace `v1.0` with the new version number. Use something like 1.0.1 and so on if you are not sure what to use.
-**Example:**
-
-```bash
-git tag v0.0
-git push origin v0.0
+docker-compose up --build --scale api=5
 ```
 
 ### Also look at the **Swagger UI** for testing the API
@@ -143,11 +117,3 @@ brew services start nginx
 Windows:
 Install Nginx from the official website:
 [Nginx](https://nginx.org/en/download.html)
-
-## Docker setup
-
-TBD
-
-## Multi-Node Database Synchronization
-
-TBD

@@ -1,68 +1,48 @@
-version: "3.8"
-
 services:
-  # PostgreSQL primary container
-  postgres_primary:
+  postgres:
     image: postgres:latest
-    container_name: postgres_primary
+    container_name: postgres
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: postgres
       POSTGRES_DB: datawarehouse
-    volumes:
-      - pg_primary_data:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    networks:
-      - pgnetwork
     ports:
       - "5433:5432"
-    restart: always
-
-  # FastAPI app container
-  fastapi-app:
-    build: ./app
-    container_name: fastapi_app
     networks:
-      - pgnetwork
-    ports:
-      - "8000:8000"
-    depends_on:
-      - postgres_primary
-    environment:
-      - POSTGRES_PRIMARY_HOST=postgres_primary
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=datawarehouse
+      - app_network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
-  # Dynamic replica service
-  postgres_replica:
-    image: postgres:latest
-    container_name: postgres_replica
-    environment:
-      POSTGRES_PASSWORD: password
-      POSTGRES_USER: postgres
-      POSTGRES_DB: datawarehouse
-    networks:
-      - pgnetwork
-    restart: always
-    depends_on:
-      - postgres_primary
-
-  # Replica manager service
-  reverse_proxy:
-    build:
+  api:
+    build: 
       context: ./app
-    image: reverse_proxy:latest
-    container_name: reverse_proxy
+    environment:
+      DATABASE_URL: postgresql://postgres:password@postgres:5433/datawarehouse
     depends_on:
-      - postgres_primary
+      - postgres
     networks:
-      - pgnetwork
+      - app_network
+    deploy:
+      replicas: 5
+    ports:
+      - "8000"
+    
+  nginx:
+      image: nginx:latest
+      container_name: nginx
+      ports:
+        - "8080:80"
+      volumes:
+        - ./nginx.conf:/etc/nginx/nginx.conf
+      depends_on:
+        - api
+      networks:
+        - app_network
 
-networks:
-  pgnetwork:
-    driver: bridge
 
 volumes:
-  pg_primary_data:
-  pg_replica_data:
+  postgres_data:
+
+networks:
+  app_network:
