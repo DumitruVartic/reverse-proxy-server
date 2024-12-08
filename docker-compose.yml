@@ -15,7 +15,7 @@ services:
     networks:
       - pgnetwork
     ports:
-      - "5433:5432"
+      - "5433" # Internal PostgreSQL port
     restart: always
 
   # FastAPI app container
@@ -48,14 +48,16 @@ services:
     depends_on:
       - postgres_primary
 
-  # Replica manager service
-  reverse_proxy:
-    build:
-      context: ./app
-    image: reverse_proxy:latest
-    container_name: reverse_proxy
+  # Nginx reverse proxy
+  nginx:
+    image: nginx:latest
+    container_name: nginx_reverse_proxy
     depends_on:
-      - postgres_primary
+      - fastapi-app
+    ports:
+      - "80:80" # Expose Nginx on port 80
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro # Bind the custom Nginx configuration file
     networks:
       - pgnetwork
 

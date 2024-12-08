@@ -21,6 +21,7 @@ RUN chmod +x /app/wait_for_db.sh
 
 # Expose the FastAPI port
 EXPOSE 8000
+EXPOSE 80
 
 # Command to run the wait_for_db.sh script before starting FastAPI
 CMD /app/wait_for_db.sh && uvicorn main:app --host 0.0.0.0 --port 8000 --reload
