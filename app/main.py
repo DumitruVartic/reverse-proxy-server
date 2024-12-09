@@ -1,12 +1,17 @@
 from typing import List
 
 import crud as crud
-from database import get_db
+from database import get_db, init_db
 from fastapi import Depends, FastAPI, HTTPException
 from schemas import UserCreate, UserResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
 app = FastAPI()
+
+
+@app.on_event("startup")
+async def on_startup():
+    await init_db()
 
 
 @app.post("/users/", response_model=UserResponse)
