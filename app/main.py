@@ -19,6 +19,11 @@ async def create_user(user: UserCreate, db: AsyncSession = Depends(get_db)):
     db_user = await crud.create_user(db, user.name, user.email)
     return db_user
 
+@app.post("/test_api/", response_model=UserResponse)
+async def test_api(user: UserCreate, db: AsyncSession = Depends(get_db)):
+    db_user = await crud.create_user(db, user.name, user.email)
+    return db_user
+
 
 @app.get("/users/", response_model=List[UserResponse])
 async def get_users(db: AsyncSession = Depends(get_db)):
