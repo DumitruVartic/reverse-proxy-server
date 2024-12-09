@@ -19,11 +19,15 @@ jobs:
     - name: Connect via SSH and Manage Docker
       run: |
         ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
-        docker stop $(docker ps -aq) && \
-        docker rm $(docker ps -aq) && \
-        docker rmi $(docker images -q) -f && \
+        if [ \$(docker ps -aq | wc -l) -gt 0 ]; then
+          docker stop \$(docker ps -aq);
+          docker rm \$(docker ps -aq);
+        fi;
+        if [ \$(docker images -q | wc -l) -gt 0 ]; then
+          docker rmi \$(docker images -q) -f;
+        fi;
         cd ${{ secrets.WORK_DIR }} && \
-        git checkout ${{ secrets.MAIN_BRANCH }} && git  pull && \
+        git checkout ${{ secrets.MAIN_BRANCH }} && git pull && \
         docker-compose up --build --scale api=5 && exit"
       
     - name: Cleanup
