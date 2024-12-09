@@ -23,6 +23,7 @@ jobs:
         docker rm \$(docker ps -aq) && \
         docker rmi \$(docker images -q) -f && \
         cd ${{ secrets.WORK_DIR }} && \
+        git checkout ${{ secrets.MAIN_BRANCH }} && git  pull && \
         docker-compose up --build --scale api=5 && exit"
       
     - name: Cleanup
