@@ -1,8 +1,9 @@
 import pytest
-from crud import create_user, delete_user, get_users, update_user
-from models import User
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
+
+from ..crud import create_user, delete_user, get_users, update_user
+from ..models import User
 
 DATABASE_URL = "postgresql+asyncpg://postgres:password@localhost:5432/test_db"
 
