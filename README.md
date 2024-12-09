@@ -6,6 +6,22 @@ Implementation of a Reverse Proxy Server developed as part of the Distributed Ap
 
 If all prerequisites are met and everything is set up correctly, you can start the server by running:
 
+## Important ! if something not working, try to run the following commands
+
+```bash
+# Stop all running containers
+docker stop $(docker ps -aq)
+
+# Remove all containers
+docker rm $(docker ps -aq)
+
+# Remove all images
+docker rmi $(docker images -q) -f
+
+# Run the server
+docker-compose up --build --scale api=5
+```
+
 Clone the repository:
 
 ```bash
